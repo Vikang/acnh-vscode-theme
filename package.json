@@ -1,0 +1,25 @@
+{
+{
+  "name": "acnh-vscode-theme",
+  "displayName": "Animal Crossing New Horizons Theme",
+  "description": "A cozy light theme inspired by Animal Crossing: New Horizons",
+  "version": "0.1.0",
+  "publisher": "vikang",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vikang/acnh-vscode-theme"
+  },
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": ["Themes"],
+  "contributes": {
+    "themes": [
+      {
+        "label": "ACNH New Horizons",
+        "uiTheme": "vs",
+        "path": "./themes/acnh-new-horizons-color-theme.json"
+      }
+    ]
+  }
+}
