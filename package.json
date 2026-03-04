@@ -48,14 +48,6 @@
     ],
     "commands": [
       {
-        "command": "acnh.enableBackground",
-        "title": "ACNH: Enable Background Image"
-      },
-      {
-        "command": "acnh.disableBackground",
-        "title": "ACNH: Disable Background Image"
-      },
-      {
         "command": "acnh.enableFont",
         "title": "ACNH: Enable Roboto Font"
       },

@@ -130,18 +130,16 @@ function buildFontCSS(fontDataUris) {
     src: url('${fontDataUris.bold}') format('woff2');
 }
 
-/* Base — apply Roboto to all VS Code UI */
+/* Base — apply Roboto to all VS Code UI (specificity 0,1,0) */
 .monaco-workbench,
-.monaco-workbench * {
+.monaco-workbench *:where(:not(.codicon):not(.codicon *):not(.editor-group-letterpress):not(.editor-group-letterpress *)) {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 400 !important;
     font-size: 13px !important;
 }
 
-/* Medium (500) — titles, headings, labels, folder names */
-.monaco-workbench .part > .title > .title-label h2,
+/* Medium (500) — tab labels, activity bar, menus, breadcrumbs, explorer */
 .monaco-workbench .part.editor > .content .editor-group-container > .title .tabs-container > .tab .tab-label,
-.monaco-workbench .pane-composite-part > .title .composite-bar .action-item,
 .monaco-workbench .activitybar .action-label,
 .menubar-menu-title,
 .monaco-breadcrumb-item,
@@ -150,44 +148,36 @@ function buildFontCSS(fontDataUris) {
     font-size: 13px !important;
 }
 
-/* Bold (700) — pane section headers */
+/* Bold (700) — panel titles and pane section headers */
+.monaco-workbench .part > .title > .title-label h2,
+.monaco-workbench .pane-composite-part > .title .composite-bar .action-item,
 .pane-header,
-.pane-header * {
+.pane-header *:where(:not(.codicon):not(.codicon *)) {
     font-weight: 700 !important;
     font-size: 11px !important;
 }
 
-/* Editor exclusion — preserve editor.fontSize */
+/* Exclusions — cascade AFTER base rule to override via source order */
+
+/* Editor — preserve editor.fontSize and cursor sizing */
 .monaco-editor,
-.monaco-editor * {
+.monaco-editor *:where(:not(.codicon):not(.codicon *)) {
     font-family: inherit !important;
     font-weight: inherit !important;
     font-size: inherit !important;
 }
 
-/* Terminal exclusion — preserve monospace */
+/* Terminal — preserve monospace */
 .terminal-wrapper,
-.terminal-wrapper *,
+.terminal-wrapper *:where(:not(.codicon):not(.codicon *)),
 .xterm,
-.xterm * {
+.xterm *:where(:not(.codicon):not(.codicon *)) {
     font-family: inherit !important;
     font-weight: inherit !important;
     font-size: inherit !important;
 }
 
-/* Restore VS Code icon fonts */
-.codicon,
-.codicon::before {
-    font-family: codicon !important;
-    font-weight: normal !important;
-}
-
-/* Letterpress exclusion — preserve empty-editor icon (Cursor leaf, VS Code logo) */
-.editor-group-letterpress {
-    font-family: inherit !important;
-    font-weight: inherit !important;
-    font-size: inherit !important;
-}`;
+`;
 }
 
 function buildCursorCSS(cursors) {
@@ -345,13 +335,11 @@ function applyAllPatches(context) {
     // Build options from feature states
     const options = {};
 
-    if (context.globalState.get('backgroundEnabled')) {
-        const imageDataUri = getBackgroundImageBase64(context.extensionPath);
-        if (imageDataUri) {
-            options.background = { imageDataUri };
-        } else {
-            log.appendLine('  Background enabled but image not found, skipping.');
-        }
+    const imageDataUri = getBackgroundImageBase64(context.extensionPath);
+    if (imageDataUri) {
+        options.background = { imageDataUri };
+    } else {
+        log.appendLine('  Background image not found, skipping.');
     }
 
     if (context.globalState.get('fontEnabled')) {
@@ -466,22 +454,6 @@ function activate(context) {
         log.appendLine(`  require.main.filename: ${require.main.filename}`);
     }
 
-    // --- Background commands ---
-    const enableBg = vscode.commands.registerCommand('acnh.enableBackground', () => {
-        context.globalState.update('backgroundEnabled', true);
-        const success = applyAllPatches(context);
-        if (success) promptReload();
-    });
-
-    const disableBg = vscode.commands.registerCommand('acnh.disableBackground', () => {
-        context.globalState.update('backgroundEnabled', false);
-        const success = applyAllPatches(context);
-        if (success) {
-            vscode.window.showInformationMessage('ACNH Theme: Background image disabled.');
-            promptReload();
-        }
-    });
-
     // --- Font commands ---
     const enableFont = vscode.commands.registerCommand('acnh.enableFont', async () => {
         context.globalState.update('fontEnabled', true);
@@ -534,7 +506,6 @@ function activate(context) {
     });
 
     context.subscriptions.push(
-        enableBg, disableBg,
         enableFont, disableFont,
         enableCursor, disableCursor,
         log
@@ -546,13 +517,12 @@ function activate(context) {
         context.globalState.update('backgroundPrompted', true);
         vscode.window
             .showInformationMessage(
-                'ACNH Theme: Would you like to enable Animal Crossing extras? Background image, Roboto font, and custom cursors are available. (These modify VS Code internal files and show an [Unsupported] tag in the title bar.)',
+                'ACNH Theme: The background image is enabled by default. Would you also like to enable Roboto font and custom cursors? (These modify VS Code internal files and show an [Unsupported] tag in the title bar.)',
                 'Enable All',
                 'Choose Later'
             )
             .then((choice) => {
                 if (choice === 'Enable All') {
-                    context.globalState.update('backgroundEnabled', true);
                     context.globalState.update('fontEnabled', true);
                     context.globalState.update('cursorEnabled', true);
                     const success = applyAllPatches(context);
