@@ -132,7 +132,7 @@ function buildFontCSS(fontDataUris) {
 
 /* Base — apply Roboto to all VS Code UI (specificity 0,1,0) */
 .monaco-workbench,
-.monaco-workbench *:where(:not(.codicon):not(.codicon *):not(.editor-group-letterpress):not(.editor-group-letterpress *)) {
+.monaco-workbench *:where(:not(.codicon):not(.codicon *):not(.editor-group-watermark):not(.editor-group-watermark *)) {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 400 !important;
     font-size: 13px !important;
