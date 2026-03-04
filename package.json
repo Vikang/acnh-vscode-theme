@@ -29,12 +29,47 @@
     "vscode": "^1.60.0"
   },
   "categories": ["Themes"],
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
   "contributes": {
     "themes": [
       {
         "label": "ACNH New Horizons",
         "uiTheme": "vs",
         "path": "./themes/acnh-new-horizons-color-theme.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "acnh.enableBackground",
+        "title": "ACNH: Enable Background Image"
+      },
+      {
+        "command": "acnh.disableBackground",
+        "title": "ACNH: Disable Background Image"
+      },
+      {
+        "command": "acnh.enableFont",
+        "title": "ACNH: Enable Roboto Font"
+      },
+      {
+        "command": "acnh.disableFont",
+        "title": "ACNH: Disable Roboto Font"
+      },
+      {
+        "command": "acnh.enableCursor",
+        "title": "ACNH: Enable Animal Crossing Cursors"
+      },
+      {
+        "command": "acnh.disableCursor",
+        "title": "ACNH: Disable Animal Crossing Cursors"
       }
     ]
   }
