@@ -1,7 +1,7 @@
 {
   "name": "acnh-vscode-theme",
   "displayName": "Animal Crossing New Horizons Theme",
-  "description": "A cozy, pastel light theme for VS Code inspired by Animal Crossing: New Horizons. Warm cream and soft green tones for a relaxing coding experience.",
+  "description": "A cozy theme for VS Code inspired by Animal Crossing: New Horizons. Available in light and dark variants with warm cream, soft green, and deep blue tones for a relaxing coding experience.",
   "version": "0.2.0",
   "publisher": "vikang",
   "license": "Apache-2.0",
@@ -9,6 +9,7 @@
   "keywords": [
     "animal crossing",
     "light theme",
+    "dark theme",
     "pastel",
     "cozy",
     "nintendo"
