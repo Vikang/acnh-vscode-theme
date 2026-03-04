@@ -525,6 +525,14 @@ function activate(context) {
         log
     );
 
+    // --- Theme change listener ---
+    const themeChangeDisposable = vscode.window.onDidChangeActiveColorTheme(() => {
+        log.appendLine('Theme changed, re-applying patches with new background.');
+        const success = applyAllPatches(context);
+        if (success) promptReload();
+    });
+    context.subscriptions.push(themeChangeDisposable);
+
     // --- First-run prompt ---
     const hasBeenPrompted = context.globalState.get('backgroundPrompted', false);
     if (!hasBeenPrompted) {
