@@ -44,6 +44,11 @@
         "label": "ACNH New Horizons",
         "uiTheme": "vs",
         "path": "./themes/acnh-new-horizons-color-theme.json"
+      },
+      {
+        "label": "ACNH New Horizons Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/acnh-new-horizons-dark-color-theme.json"
       }
     ],
     "commands": [
