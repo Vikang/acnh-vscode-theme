@@ -71,9 +71,21 @@ function getDarkBackgroundImageBase64(extensionPath) {
     );
 }
 
+function getBrewsterBackgroundImageBase64(extensionPath) {
+    return fileToBase64DataUri(
+        path.join(extensionPath, 'Nook_Shopping_Background_Brown.png'),
+        'image/png'
+    );
+}
+
 function isDarkThemeActive() {
     const kind = vscode.window.activeColorTheme.kind;
     return kind === vscode.ColorThemeKind.Dark || kind === vscode.ColorThemeKind.HighContrast;
+}
+
+function isBrewsterThemeActive() {
+    const themeName = vscode.workspace.getConfiguration('workbench').get('colorTheme', '');
+    return themeName.includes('Brewster');
 }
 
 function getCursorBase64(extensionPath, filename) {
@@ -347,9 +359,14 @@ function applyAllPatches(context) {
     // Build options from feature states
     const options = {};
 
-    const imageDataUri = isDarkThemeActive()
-        ? getDarkBackgroundImageBase64(context.extensionPath)
-        : getBackgroundImageBase64(context.extensionPath);
+    let imageDataUri;
+    if (isBrewsterThemeActive()) {
+        imageDataUri = getBrewsterBackgroundImageBase64(context.extensionPath);
+    } else if (isDarkThemeActive()) {
+        imageDataUri = getDarkBackgroundImageBase64(context.extensionPath);
+    } else {
+        imageDataUri = getBackgroundImageBase64(context.extensionPath);
+    }
     if (imageDataUri) {
         options.background = { imageDataUri };
     } else {
