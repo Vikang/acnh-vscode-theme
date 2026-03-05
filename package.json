@@ -2,7 +2,7 @@
   "name": "acnh-vscode-theme",
   "displayName": "Animal Crossing New Horizons Theme",
   "description": "A cozy theme for VS Code inspired by Animal Crossing: New Horizons. Three variants — Tom Nook (light), Blathers (dark neon), and Brewster (dark cozy) — with warm cream, soft green, and deep blue tones for a relaxing coding experience.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "vikang",
   "license": "Apache-2.0",
   "icon": "acnh_leaf.png",
@@ -29,7 +29,9 @@
   "engines": {
     "vscode": "^1.60.0"
   },
-  "categories": ["Themes"],
+  "categories": [
+    "Themes"
+  ],
   "main": "./src/extension.js",
   "activationEvents": [
     "onStartupFinished"
